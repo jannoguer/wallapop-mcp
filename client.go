@@ -9,6 +9,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -48,7 +49,10 @@ func (g *gate) wait(ctx context.Context) error {
 	g.next = slot.Add(g.interval)
 	g.mu.Unlock()
 
-	d := time.Until(slot)
+	return sleep(ctx, time.Until(slot))
+}
+
+func sleep(ctx context.Context, d time.Duration) error {
 	if d <= 0 {
 		return nil
 	}
@@ -62,23 +66,33 @@ func (g *gate) wait(ctx context.Context) error {
 	}
 }
 
-// send performs one rate-limited request. out may be nil (body discarded),
-// a *string (raw body) or anything json.Unmarshal accepts; empty bodies are
-// not decoded. It returns the response headers.
+const (
+	defaultRetryAfter = 2 * time.Second
+	maxRetryAfter     = 10 * time.Second
+)
+
+// retryAfter reads a Retry-After header given in seconds, capped so a tool
+// call never stalls for long.
+func retryAfter(v string) time.Duration {
+	s, err := strconv.Atoi(v)
+	if err != nil || s < 0 {
+		return defaultRetryAfter
+	}
+	return min(time.Duration(s)*time.Second, maxRetryAfter)
+}
+
+// send performs one rate-limited request, retried once after a 429. out may
+// be nil (body discarded), a *string (raw body) or anything json.Unmarshal
+// accepts; empty bodies are not decoded. It returns the response headers.
 func send(ctx context.Context, hc *http.Client, g *gate, method, u string, header http.Header, body []byte, out any) (http.Header, error) {
-	if err := g.wait(ctx); err != nil {
-		return nil, err
+	resp, err := sendOnce(ctx, hc, g, method, u, header, body)
+	if err == nil && resp.StatusCode == http.StatusTooManyRequests {
+		resp.Body.Close()
+		if err := sleep(ctx, retryAfter(resp.Header.Get("Retry-After"))); err != nil {
+			return nil, err
+		}
+		resp, err = sendOnce(ctx, hc, g, method, u, header, body)
 	}
-	var rd io.Reader
-	if body != nil {
-		rd = bytes.NewReader(body)
-	}
-	req, err := http.NewRequestWithContext(ctx, method, u, rd)
-	if err != nil {
-		return nil, err
-	}
-	req.Header = header
-	resp, err := hc.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -105,6 +119,22 @@ func send(ctx context.Context, hc *http.Client, g *gate, method, u string, heade
 		return nil, fmt.Errorf("%s %s: decode: %w", method, u, err)
 	}
 	return resp.Header, nil
+}
+
+func sendOnce(ctx context.Context, hc *http.Client, g *gate, method, u string, header http.Header, body []byte) (*http.Response, error) {
+	if err := g.wait(ctx); err != nil {
+		return nil, err
+	}
+	var rd io.Reader
+	if body != nil {
+		rd = bytes.NewReader(body)
+	}
+	req, err := http.NewRequestWithContext(ctx, method, u, rd)
+	if err != nil {
+		return nil, err
+	}
+	req.Header = header
+	return hc.Do(req)
 }
 
 type Client struct {

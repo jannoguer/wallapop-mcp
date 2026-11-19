@@ -152,3 +152,49 @@ func TestSendBodiesAndStatuses(t *testing.T) {
 		t.Errorf("error lacks method: %v", err)
 	}
 }
+
+func TestSendRetriesOnce429(t *testing.T) {
+	for _, limited := range []int{1, 2} {
+		n := 0
+		srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			b, _ := io.ReadAll(r.Body)
+			if string(b) != "body" {
+				t.Errorf("request %d body = %q", n, b)
+			}
+			n++
+			if n <= limited {
+				w.Header().Set("Retry-After", "0")
+				w.WriteHeader(http.StatusTooManyRequests)
+				return
+			}
+			w.Write([]byte("ok"))
+		}))
+		var out string
+		_, err := send(context.Background(), srv.Client(), &gate{}, http.MethodPost, srv.URL, http.Header{}, []byte("body"), &out)
+		srv.Close()
+		var he *HTTPError
+		switch {
+		case n != 2:
+			t.Errorf("%d limited: %d requests, want 2", limited, n)
+		case limited == 1 && (err != nil || out != "ok"):
+			t.Errorf("retry failed: %v %q", err, out)
+		case limited == 2 && (!errors.As(err, &he) || he.Status != http.StatusTooManyRequests):
+			t.Errorf("second 429 not reported: %v", err)
+		}
+	}
+}
+
+func TestRetryAfter(t *testing.T) {
+	tests := map[string]time.Duration{
+		"":                              defaultRetryAfter,
+		"3":                             3 * time.Second,
+		"600":                           maxRetryAfter,
+		"-1":                            defaultRetryAfter,
+		"Wed, 21 Oct 2026 07:28:00 GMT": defaultRetryAfter,
+	}
+	for in, want := range tests {
+		if got := retryAfter(in); got != want {
+			t.Errorf("retryAfter(%q) = %v, want %v", in, got, want)
+		}
+	}
+}
