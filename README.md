@@ -48,7 +48,7 @@ With `WALLAPOP_SESSION` set, these are added:
 
 Search filters: `query`, `city`, `radius_km`, `category_id` (any depth), `min_price`, `max_price`, `conditions` (`un_opened`, `new`, `as_good_as_new`, `good`, `fair`, `has_given_it_all`), `posted_within` (`today`, `week`, `month`), `sort` (`relevance`, `closest`, `newest`, `price_asc`, `price_desc`), `shippable_only`, `cursor`.
 
-Tip for agents: pass a `category_id` (e.g. Smartphones, 9447). Keyword search alone mixes in cases and cables. Keyword matching is fuzzy ("iphone 13" also returns iPhone 11s), so check `attributes.model` in enriched results.
+Tip for agents: pass a `category_id` (e.g. Smartphones, 9447). Keyword search alone mixes in cases and cables. Keyword matching is fuzzy ("iphone 13" also returns iPhone 11s), so check `attributes.model` in enriched results. Listings marked `promoted` are paid bumps that Wallapop mixes into results (about one in ten on a relevance search), whatever their relevance.
 
 ## Config
 

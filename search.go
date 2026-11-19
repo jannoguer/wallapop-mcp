@@ -37,6 +37,9 @@ type Listing struct {
 	Reserved    bool     `json:"reserved"`
 	Shippable   bool     `json:"shippable"`
 	Refurbished bool     `json:"refurbished"`
+	Promoted    bool     `json:"promoted,omitempty" jsonschema:"the seller paid to bump it; Wallapop mixes bumped listings into results"`
+	TopProfile  bool     `json:"top_profile,omitempty" jsonschema:"seller has Wallapop's top profile badge"`
+	Warranty    bool     `json:"warranty,omitempty"`
 	CategoryID  int      `json:"category_id"`
 	SellerID    string   `json:"seller_id"`
 	URL         string   `json:"url"`
@@ -194,6 +197,11 @@ type rawListing struct {
 	WebSlug       string      `json:"web_slug"`
 	CreatedAt     int64       `json:"created_at"`
 	IsRefurbished flag        `json:"is_refurbished"`
+	IsTopProfile  flag        `json:"is_top_profile"`
+	HasWarranty   flag        `json:"has_warranty"`
+	Bump          struct {
+		Type string `json:"type"`
+	} `json:"bump"`
 }
 
 type rawSearch struct {
@@ -266,6 +274,9 @@ func toListing(r rawListing, origin *Place) Listing {
 		Reserved:    r.Reserved.Flag,
 		Shippable:   r.Shipping.ItemIsShippable && r.Shipping.UserAllowsShipping,
 		Refurbished: r.IsRefurbished.Flag,
+		Promoted:    r.Bump.Type != "" && r.Bump.Type != "none",
+		TopProfile:  r.IsTopProfile.Flag,
+		Warranty:    r.HasWarranty.Flag,
 		CategoryID:  r.CategoryID,
 		SellerID:    r.UserID,
 		URL:         itemURLPrefix + r.WebSlug,

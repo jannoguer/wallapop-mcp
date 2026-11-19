@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"math"
+	"net/http"
 	"net/url"
+	"slices"
 	"strings"
 	"testing"
 )
@@ -125,7 +127,7 @@ func TestSearch(t *testing.T) {
 	l := res.Listings[0]
 	want := Listing{
 		ID: "ejkml3e23yzx", Title: "iPhone 13 Negro", Price: 170, Currency: "EUR", City: "Barcelona",
-		PostedAt: "2026-10-10T17:14:15Z", Shippable: true, CategoryID: 24200, SellerID: "w67dkw9py56x",
+		PostedAt: "2026-10-10T17:14:15Z", Shippable: true, Promoted: true, CategoryID: 24200, SellerID: "w67dkw9py56x",
 		URL: "https://wallapop.com/item/iphone-13-negro-1311621547",
 	}
 	if l.DistanceKm == nil || *l.DistanceKm != 86.8 {
@@ -141,8 +143,35 @@ func TestSearch(t *testing.T) {
 	if res.Listings[2].Shippable {
 		t.Error("listing 2: seller disallows shipping, so not shippable")
 	}
+	if l := res.Listings[3]; !l.TopProfile || l.Promoted {
+		t.Errorf("listing 3: top profile %v, promoted %v", l.TopProfile, l.Promoted)
+	}
 	if d := res.Listings[2].Description; !strings.HasSuffix(d, "...") || len([]rune(d)) != listingDescMaxRunes+3 {
 		t.Errorf("long description not truncated: %d runes", len([]rune(d)))
+	}
+}
+
+func TestSearchFlags(t *testing.T) {
+	f := newFake(t)
+	f.wp["GET /search"] = func(w http.ResponseWriter, _ *http.Request) {
+		w.Write([]byte(`{"data":{"section":{"payload":{"items":[
+			{"id":"a","bump":{"type":"none"},"has_warranty":{"flag":true}},
+			{"id":"b","bump":{"type":"city"}},
+			{"id":"c"}]}}}}`))
+	}
+	res, err := f.app(t, "").Search(context.Background(), SearchParams{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	var got []bool
+	for _, l := range res.Listings {
+		got = append(got, l.Promoted)
+	}
+	if !slices.Equal(got, []bool{false, true, false}) {
+		t.Errorf("promoted = %v", got)
+	}
+	if !res.Listings[0].Warranty || res.Listings[1].Warranty {
+		t.Error("warranty flag not mapped")
 	}
 }
 
