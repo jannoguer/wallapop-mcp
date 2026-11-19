@@ -52,7 +52,7 @@ func New(c *wallapop.Client) *mcp.Server {
 			}
 			return c.Seller(ctx, in.ID, n)
 		})
-	add(s, "list_categories", `Find Wallapop category ids by name (e.g. "smartphones", "bicicletas"). Names are in Spanish.`,
+	add(s, "list_categories", `Find Wallapop category ids by name (e.g. "smartphones", "bikes"). Names are in English.`,
 		ro, func(ctx context.Context, in CategoryParams) (CategoryList, error) {
 			list, err := c.Categories(ctx, in.Query)
 			return CategoryList{Categories: list}, err
