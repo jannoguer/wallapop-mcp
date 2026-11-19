@@ -203,7 +203,8 @@ func (c *Client) SendMessage(ctx context.Context, p SendParams) (SendResult, err
 		return SendResult{}, err
 	}
 	// Agents retry; resending the same text would spam the other user.
-	for _, m := range slices.Backward(th.Messages.Messages) {
+	// Messages come newest first, so the first of mine is my latest.
+	for _, m := range th.Messages.Messages {
 		if m.FromSelf {
 			if m.Text == p.Text {
 				return SendResult{ConversationID: cid, Status: "already_sent"}, nil

@@ -127,6 +127,29 @@ func TestSendMessageDedupe(t *testing.T) {
 	}
 }
 
+// The API lists messages newest first: only my latest message counts as a retry.
+func TestSendMessageDedupeLatestOnly(t *testing.T) {
+	f, _, pub := chatFake(t, `[1,"Sent","1"]`)
+	f.Routes["GET /bff/messaging/conversation/{id}"] = func(w http.ResponseWriter, _ *http.Request) {
+		w.Write([]byte(`{"hash":"conv0000001","channel":"chat.buyer000001.conv0000001.seller000001",
+			"with_user":{"hash":"buyer000001"},"messages":{"messages":[
+			{"from_self":true,"text":"B","timestamp":3},
+			{"from_self":false,"text":"ok","timestamp":2},
+			{"from_self":true,"text":"A","timestamp":1}]}}`))
+	}
+	c := authClient(t, f)
+	tests := []struct{ text, want string }{{"B", "already_sent"}, {"A", "sent"}}
+	for _, tt := range tests {
+		got, err := c.SendMessage(context.Background(), SendParams{ConversationID: "conv0000001", Text: tt.text})
+		if err != nil || got.Status != tt.want {
+			t.Errorf("%q: %+v, %v, want %s", tt.text, got, err, tt.want)
+		}
+	}
+	if len(pub.reqs) != 1 {
+		t.Errorf("%d publishes, want 1", len(pub.reqs))
+	}
+}
+
 func TestSendMessageErrors(t *testing.T) {
 	f, _, _ := chatFake(t, `[0,"Forbidden","0"]`)
 	c := authClient(t, f)
