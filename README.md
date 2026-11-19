@@ -15,6 +15,8 @@ Tools: `search_items`, `search_enriched`, `get_item`, `get_seller`, `list_catego
 | `WALLAPOP_MIN_INTERVAL_MS` | `250` | Minimum gap between Wallapop requests |
 | `WALLAPOP_SESSION` | none | Session cookie; enables the account tools |
 
+The server reads these from its process environment, not from a `.env` file. Your MCP client passes them from the `env` block of its JSON config: `claude mcp add --scope user -e NAME=value ...` writes it to `~/.claude.json`, and Claude Desktop reads it from `claude_desktop_config.json`. To commit a project `.mcp.json` instead, write `"WALLAPOP_SESSION": "${WALLAPOP_SESSION}"` there and Claude Code expands it from your shell, so the cookie stays out of the repo.
+
 ## Session cookie
 
 Log in at es.wallapop.com. Open DevTools > Application > Cookies > `https://es.wallapop.com` and copy the value of `__Secure-next-auth.session-token`. Wallapop rotates the cookie, and the server saves each new one to `%APPDATA%\wallapop-mcp\session.json` (the user config dir on other systems). Each new cookie is valid for 30 days, so you only need to paste it again if the server goes a month without running. Changing `WALLAPOP_SESSION` replaces the saved cookie. The cookie gives full access to your account, so keep it out of repos.
