@@ -1,0 +1,354 @@
+{
+ "main": {
+  "type": "main",
+  "data": {
+   "content": [
+    {
+     "id": "63c37c39-a708-4616-8f15-f6e764c5b853",
+     "type": "tab_container",
+     "data": {
+      "tabs": [
+       {
+        "id": "ongoing",
+        "type": "tab",
+        "data": {
+         "label": "In progress"
+        },
+        "style": {
+         "state": "unselected"
+        },
+        "callbacks": {
+         "on_success": null,
+         "on_failure": {
+          "data": {
+           "event_name": "Transaction Streamline Error",
+           "parameters": {
+            "screenId": "307",
+            "errorType": "streamline cannot be loaded"
+           }
+          },
+          "callbacks": null,
+          "type": "tracking"
+         }
+        },
+        "sub_type": null,
+        "children": [],
+        "events": null
+       },
+       {
+        "id": "finished",
+        "type": "tab",
+        "data": {
+         "label": "Finished"
+        },
+        "style": {
+         "state": "selected"
+        },
+        "callbacks": {
+         "on_success": null,
+         "on_failure": {
+          "data": {
+           "event_name": "Transaction Streamline Error",
+           "parameters": {
+            "screenId": "308",
+            "errorType": "streamline cannot be loaded"
+           }
+          },
+          "callbacks": null,
+          "type": "tracking"
+         }
+        },
+        "sub_type": null,
+        "children": [],
+        "events": null
+       }
+      ],
+      "content": [
+       {
+        "id": "fb9e5238-6206-4bef-95ac-23582be6cf53",
+        "type": "directory",
+        "data": {
+         "content": [
+          {
+           "type": "text",
+           "data": {
+            "content": "2026"
+           },
+           "style": {
+            "typography": "high_m",
+            "color": "content_high",
+            "max_lines": 1,
+            "strikethrough": false,
+            "align": null
+           },
+           "id": null,
+           "sub_type": null,
+           "children": [],
+           "events": null
+          },
+          {
+           "type": "spacer",
+           "data": {
+            "orientation": "vertical",
+            "size": 12
+           },
+           "sub_type": "fixed",
+           "id": null,
+           "style": null,
+           "children": [],
+           "events": null
+          },
+          {
+           "type": "text",
+           "data": {
+            "content": "November"
+           },
+           "style": {
+            "typography": "mid_l",
+            "color": "content_high",
+            "max_lines": 1,
+            "strikethrough": false,
+            "align": null
+           },
+           "id": null,
+           "sub_type": null,
+           "children": [],
+           "events": null
+          },
+          {
+           "type": "spacer",
+           "data": {
+            "orientation": "vertical",
+            "size": 12
+           },
+           "sub_type": "fixed",
+           "id": null,
+           "style": null,
+           "children": [],
+           "events": null
+          },
+          {
+           "id": "cc046ae5-a437-33c0-a30d-6b5f767ddfb5",
+           "type": "list_item_transaction",
+           "data": {
+            "avatar": {
+             "type": "avatar",
+             "sub_type": "product",
+             "data": {
+              "main_image_url": "https://d1u7va5g5l9k5i.cloudfront.net/cc046ae5-a437-33c0-a30d-6b5f767ddfb5.jpg",
+              "secondary_image_url": null,
+              "bundle_size": 1
+             },
+             "style": {
+              "size": "l"
+             },
+             "id": null,
+             "children": [],
+             "events": null
+            },
+            "main": {
+             "type": "text",
+             "data": {
+              "content": "Taza de ceramica azul"
+             },
+             "style": {
+              "typography": "mid_m",
+              "color": "content_high",
+              "max_lines": 1,
+              "strikethrough": false,
+              "align": null
+             },
+             "id": null,
+             "sub_type": null,
+             "children": [],
+             "events": null
+            },
+            "detail": {
+             "type": "text",
+             "data": {
+              "content": "Transaction completed 19 Nov 2026"
+             },
+             "style": {
+              "typography": "low_s",
+              "color": "content_high",
+              "max_lines": 1,
+              "strikethrough": false,
+              "align": null
+             },
+             "id": null,
+             "sub_type": null,
+             "children": [],
+             "events": null
+            },
+            "extra_details": [
+             {
+              "type": "list_item_transaction_plain_detail",
+              "data": {
+               "title": {
+                "type": "text",
+                "data": {
+                 "content": "Order date"
+                },
+                "style": {
+                 "typography": "low_xs",
+                 "color": "content_mid",
+                 "max_lines": 1,
+                 "strikethrough": false,
+                 "align": null
+                },
+                "id": null,
+                "sub_type": null,
+                "children": [],
+                "events": null
+               },
+               "description": {
+                "type": "text",
+                "data": {
+                 "content": "19 Nov 2026"
+                },
+                "style": {
+                 "typography": "low_s",
+                 "color": "content_mid",
+                 "max_lines": 1,
+                 "strikethrough": false,
+                 "align": null
+                },
+                "id": null,
+                "sub_type": null,
+                "children": [],
+                "events": null
+               }
+              }
+             },
+             {
+              "type": "list_item_transaction_plain_detail",
+              "data": {
+               "title": {
+                "type": "text",
+                "data": {
+                 "content": "Delivery method"
+                },
+                "style": {
+                 "typography": "low_xs",
+                 "color": "content_mid",
+                 "max_lines": 1,
+                 "strikethrough": false,
+                 "align": null
+                },
+                "id": null,
+                "sub_type": null,
+                "children": [],
+                "events": null
+               },
+               "description": {
+                "type": "text",
+                "data": {
+                 "content": "In person"
+                },
+                "style": {
+                 "typography": "low_s",
+                 "color": "content_mid",
+                 "max_lines": 1,
+                 "strikethrough": false,
+                 "align": null
+                },
+                "id": null,
+                "sub_type": null,
+                "children": [],
+                "events": null
+               }
+              }
+             }
+            ],
+            "detail_price": {
+             "type": "text",
+             "data": {
+              "content": "6.00 €"
+             },
+             "style": {
+              "typography": "low_m",
+              "color": "content_high",
+              "max_lines": 1,
+              "strikethrough": false,
+              "align": null
+             },
+             "id": null,
+             "sub_type": null,
+             "children": [],
+             "events": null
+            }
+           },
+           "events": {
+            "on_click": {
+             "data": {
+              "url": "https://wallapop.com/item/taza-de-ceramica-azul-1326191031"
+             },
+             "callbacks": {
+              "on_success": {
+               "data": {
+                "event_name": "Click Access TTS",
+                "parameters": {
+                 "screenId": "308",
+                 "requestId": "null",
+                 "requestStatus": null,
+                 "transactionId": "null",
+                 "transactionStatus": null,
+                 "deliveryStatus": null,
+                 "disputeStatus": null,
+                 "deliveryReturnStatus": null
+                }
+               },
+               "callbacks": null,
+               "type": "tracking"
+              },
+              "on_failure": null
+             },
+             "type": "universal_link"
+            }
+           },
+           "sub_type": null,
+           "style": null,
+           "children": []
+          }
+         ],
+         "pagination": null
+        },
+        "events": {
+         "on_load": {
+          "data": {
+           "event_name": "View Completed Sales",
+           "parameters": {
+            "emptyState": "false",
+            "screenId": "308"
+           }
+          },
+          "callbacks": null,
+          "type": "tracking"
+         }
+        },
+        "style": {
+         "content_spacing": 0
+        },
+        "sub_type": null,
+        "children": []
+       }
+      ]
+     },
+     "style": {
+      "tabs_size": "large"
+     },
+     "sub_type": null,
+     "children": [],
+     "events": null
+    }
+   ]
+  },
+  "events": null,
+  "id": null,
+  "sub_type": null,
+  "style": null,
+  "children": []
+ },
+ "nav_bar": null,
+ "realtime_subscriptions": []
+}

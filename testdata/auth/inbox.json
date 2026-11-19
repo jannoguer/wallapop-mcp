@@ -1,0 +1,128 @@
+{
+ "user_hash": "seller000001",
+ "unread_messages": 2,
+ "conversations": [
+  {
+   "hash": "conv0000001",
+   "sale": {
+    "seller": {
+     "hash": "buyer000001"
+    },
+    "buyer": {
+     "hash": "seller000001"
+    }
+   },
+   "with_user": {
+    "hash": "buyer000001",
+    "name": "Ana",
+    "image_url": "https://cdn.wallapop.com/images/placeholder.jpg",
+    "available": true,
+    "malicious": false,
+    "blocked": false,
+    "score": 95,
+    "rating_average": 4.8,
+    "reviews_count": 21,
+    "location": {
+     "longitude": 2.0,
+     "latitude": 41.0
+    },
+    "response_rate": "less than three hours",
+    "slug": "user-1",
+    "preferences": {}
+   },
+   "item": {
+    "hash": "item0000001",
+    "title": "Taza de ceramica azul",
+    "status": "published",
+    "image_url": "https://cdn.wallapop.com/images/placeholder.jpg",
+    "price": {
+     "amount": 3.0,
+     "currency": "EUR"
+    },
+    "slug": "item-1",
+    "is_mine": false,
+    "category_id": 24200
+   },
+   "messages": {
+    "messages": [
+     {
+      "id": "00000000-0000-0000-0000-1795123264597",
+      "from_self": false,
+      "text": "Sigue disponible? Me interesa mucho, puedo pasar a recogerla esta tarde si te va bien. Dime algo cuando puedas, gracias de antemano por tu respuesta rapida, que tengas muy buen dia.",
+      "timestamp": 1795123264597,
+      "status": "received",
+      "type": "text",
+      "time_token": "17951232645970000"
+     }
+    ]
+   },
+   "unread_messages": 2,
+   "translatable": false,
+   "map_enabled": true,
+   "topic_id": "00000000-0000-0000-0000-000000000000",
+   "items_count": 1,
+   "channel": "chat.buyer000001.conv0000001.seller000001"
+  },
+  {
+   "hash": "conv0000002",
+   "sale": {
+    "seller": {
+     "hash": "buyer000002"
+    },
+    "buyer": {
+     "hash": "seller000001"
+    }
+   },
+   "with_user": {
+    "hash": "buyer000002",
+    "name": "Luis",
+    "image_url": "https://cdn.wallapop.com/images/placeholder.jpg",
+    "available": true,
+    "malicious": false,
+    "blocked": false,
+    "score": 95,
+    "rating_average": 4.8,
+    "reviews_count": 21,
+    "location": {
+     "longitude": 2.0,
+     "latitude": 41.0
+    },
+    "response_rate": "less than three hours",
+    "slug": "user-1",
+    "preferences": {}
+   },
+   "item": {
+    "hash": "item0000002",
+    "title": "Lampara",
+    "status": "published",
+    "image_url": "https://cdn.wallapop.com/images/placeholder.jpg",
+    "price": {
+     "amount": 3.0,
+     "currency": "EUR"
+    },
+    "slug": "item-1",
+    "is_mine": false,
+    "category_id": 24200
+   },
+   "messages": {
+    "messages": [
+     {
+      "id": "00000000-0000-0000-0000-1795120000000",
+      "from_self": true,
+      "text": "Perfecto",
+      "timestamp": 1795120000000,
+      "status": "received",
+      "type": "text",
+      "time_token": "17951200000000000"
+     }
+    ]
+   },
+   "unread_messages": 0,
+   "translatable": false,
+   "map_enabled": true,
+   "topic_id": "00000000-0000-0000-0000-000000000000",
+   "items_count": 1,
+   "channel": "chat.buyer000002.conv0000002.seller000001"
+  }
+ ]
+}

@@ -1,0 +1,758 @@
+{
+ "categories": [
+  {
+   "id": 100,
+   "name": "Coches",
+   "subcategories": []
+  },
+  {
+   "id": 24200,
+   "name": "Tecnología y electrónica",
+   "subcategories": [
+    {
+     "id": 10206,
+     "name": "Imagen: televisores y proyectores",
+     "subcategories": [
+      {
+       "id": 10414,
+       "name": "TV",
+       "subcategories": []
+      },
+      {
+       "id": 10406,
+       "name": "Proyectores",
+       "subcategories": []
+      },
+      {
+       "id": 10405,
+       "name": "Accesorios de televisores y proyectores",
+       "subcategories": [
+        {
+         "id": 24140,
+         "name": "Lámparas proyector",
+         "subcategories": []
+        },
+        {
+         "id": 24141,
+         "name": "Pantallas de proyección",
+         "subcategories": []
+        },
+        {
+         "id": 24142,
+         "name": "Soportes para proyectores",
+         "subcategories": []
+        },
+        {
+         "id": 24144,
+         "name": "DVD y Blu-Ray",
+         "subcategories": []
+        },
+        {
+         "id": 24145,
+         "name": "Soportes TV",
+         "subcategories": []
+        },
+        {
+         "id": 10413,
+         "name": "Mandos a distancia",
+         "subcategories": []
+        },
+        {
+         "id": 24146,
+         "name": "TDT",
+         "subcategories": []
+        },
+        {
+         "id": 24147,
+         "name": "Muebles de TV",
+         "subcategories": []
+        },
+        {
+         "id": 24148,
+         "name": "Marcos para TV",
+         "subcategories": []
+        },
+        {
+         "id": 10409,
+         "name": "Otros accesorios de televisores y proyectores",
+         "subcategories": []
+        }
+       ]
+      },
+      {
+       "id": 24192,
+       "name": "Otros artículos de imagen",
+       "subcategories": []
+      }
+     ]
+    },
+    {
+     "id": 24149,
+     "name": "Sonido: auriculares y altavoces",
+     "subcategories": [
+      {
+       "id": 10395,
+       "name": "Auriculares",
+       "subcategories": []
+      },
+      {
+       "id": 24150,
+       "name": "Altavoces",
+       "subcategories": []
+      },
+      {
+       "id": 24151,
+       "name": "Home cinema y barras de sonido",
+       "subcategories": []
+      },
+      {
+       "id": 10205,
+       "name": "Dispositivos de sonido",
+       "subcategories": [
+        {
+         "id": 24152,
+         "name": "Despertadores digitales",
+         "subcategories": []
+        },
+        {
+         "id": 24153,
+         "name": "Grabadoras de voz",
+         "subcategories": []
+        },
+        {
+         "id": 24154,
+         "name": "Karaoke",
+         "subcategories": []
+        },
+        {
+         "id": 24155,
+         "name": "MP3 y MP4",
+         "subcategories": []
+        },
+        {
+         "id": 24156,
+         "name": "Radio",
+         "subcategories": []
+        },
+        {
+         "id": 24157,
+         "name": "Radio CD",
+         "subcategories": []
+        },
+        {
+         "id": 24158,
+         "name": "Reproductor CD",
+         "subcategories": []
+        },
+        {
+         "id": 24159,
+         "name": "Otros dispositivos de audio",
+         "subcategories": []
+        }
+       ]
+      },
+      {
+       "id": 10070,
+       "name": "Tocadiscos",
+       "subcategories": []
+      },
+      {
+       "id": 24160,
+       "name": "DJ y audio profesional",
+       "subcategories": [
+        {
+         "id": 24161,
+         "name": "Accesorios de Grabación",
+         "subcategories": []
+        },
+        {
+         "id": 24162,
+         "name": "Amplificadores",
+         "subcategories": []
+        },
+        {
+         "id": 24163,
+         "name": "Receptores",
+         "subcategories": []
+        },
+        {
+         "id": 24164,
+         "name": "Auriculares para DJ",
+         "subcategories": []
+        },
+        {
+         "id": 24165,
+         "name": "Controladores MIDI",
+         "subcategories": []
+        },
+        {
+         "id": 24166,
+         "name": "Grabadoras",
+         "subcategories": []
+        },
+        {
+         "id": 24167,
+         "name": "Maletas de DJ",
+         "subcategories": []
+        },
+        {
+         "id": 24168,
+         "name": "Mesa de mezclas / DJ",
+         "subcategories": []
+        },
+        {
+         "id": 24169,
+         "name": "Micrófonos",
+         "subcategories": []
+        },
+        {
+         "id": 24170,
+         "name": "Monitores de estudio",
+         "subcategories": []
+        },
+        {
+         "id": 24171,
+         "name": "Pedales",
+         "subcategories": []
+        },
+        {
+         "id": 24172,
+         "name": "Sintetizadores",
+         "subcategories": []
+        }
+       ]
+      },
+      {
+       "id": 24173,
+       "name": "Otros dispositivos de sonido",
+       "subcategories": []
+      }
+     ]
+    },
+    {
+     "id": 10200,
+     "name": "Fotografía: cámaras y drones",
+     "subcategories": [
+      {
+       "id": 10397,
+       "name": "Cámaras",
+       "subcategories": [
+        {
+         "id": 24174,
+         "name": "Reflex",
+         "subcategories": []
+        },
+        {
+         "id": 24175,
+         "name": "Compactas",
+         "subcategories": []
+        },
+        {
+         "id": 24176,
+         "name": "Sin espejo",
+         "subcategories": []
+        },
+        {
+         "id": 24177,
+         "name": "Vintage",
+         "subcategories": []
+        },
+        {
+         "id": 24178,
+         "name": "Instantáneas",
+         "subcategories": []
+        },
+        {
+         "id": 10417,
+         "name": "Cámaras de video",
+         "subcategories": []
+        },
+        {
+         "id": 24179,
+         "name": "Otras cámaras",
+         "subcategories": []
+        }
+       ]
+      },
+      {
+       "id": 10401,
+       "name": "Objetivos",
+       "subcategories": []
+      },
+      {
+       "id": 10201,
+       "name": "Drones",
+       "subcategories": []
+      },
+      {
+       "id": 24180,
+       "name": "Accesorios de fotografía",
+       "subcategories": [
+        {
+         "id": 10398,
+         "name": "Flashes",
+         "subcategories": []
+        },
+        {
+         "id": 24181,
+         "name": "Carretes fotográficos",
+         "subcategories": []
+        },
+        {
+         "id": 24182,
+         "name": "Filtros fotograficos",
+         "subcategories": []
+        },
+        {
+         "id": 24183,
+         "name": "Papel fotográfico",
+         "subcategories": []
+        },
+        {
+         "id": 24184,
+         "name": "Grips",
+         "subcategories": []
+        },
+        {
+         "id": 24185,
+         "name": "Tapas y parasoles",
+         "subcategories": []
+        },
+        {
+         "id": 10403,
+         "name": "Trípodes y monopies",
+         "subcategories": []
+        },
+        {
+         "id": 24186,
+         "name": "Fundas de objetivos",
+         "subcategories": []
+        },
+        {
+         "id": 24187,
+         "name": "Fundas, mochilas y correas para cámara",
+         "subcategories": []
+        },
+        {
+         "id": 10203,
+         "name": "Baterías y cargadores",
+         "subcategories": []
+        },
+        {
+         "id": 24188,
+         "name": "Álbumes de fotos",
+         "subcategories": []
+        },
+        {
+         "id": 24189,
+         "name": "Marcos de fotos",
+         "subcategories": []
+        },
+        {
+         "id": 24190,
+         "name": "Libros de fotos",
+         "subcategories": []
+        },
+        {
+         "id": 24191,
+         "name": "Otros accesorios de fotografía",
+         "subcategories": []
+        }
+       ]
+      },
+      {
+       "id": 10199,
+       "name": "Cámaras de vigilancia",
+       "subcategories": []
+      },
+      {
+       "id": 24193,
+       "name": "Otros articulos de fotografía",
+       "subcategories": []
+      }
+     ]
+    },
+    {
+     "id": 24201,
+     "name": "Telefonía: móviles y smartwatches",
+     "subcategories": [
+      {
+       "id": 9447,
+       "name": "Smartphones",
+       "subcategories": []
+      },
+      {
+       "id": 9487,
+       "name": "Smartwatches y pulsera de actividad",
+       "subcategories": []
+      },
+      {
+       "id": 10175,
+       "name": "Teléfonos vintage",
+       "subcategories": []
+      },
+      {
+       "id": 24102,
+       "name": "Telefonos fijos",
+       "subcategories": []
+      },
+      {
+       "id": 24103,
+       "name": "Otros teléfonos",
+       "subcategories": []
+      },
+      {
+       "id": 9375,
+       "name": "Accesorios de móviles y smartwatches",
+       "subcategories": [
+        {
+         "id": 10427,
+         "name": "Cargadores y cables para móviles",
+         "subcategories": []
+        },
+        {
+         "id": 24104,
+         "name": "Powerbanks",
+         "subcategories": []
+        },
+        {
+         "id": 10428,
+         "name": "Fundas y carcasas para móviles",
+         "subcategories": []
+        },
+        {
+         "id": 10423,
+         "name": "Baterías para móviles",
+         "subcategories": []
+        },
+        {
+         "id": 24105,
+         "name": "Soportes para móviles",
+         "subcategories": []
+        },
+        {
+         "id": 24106,
+         "name": "Cristales templados para móviles",
+         "subcategories": []
+        },
+        {
+         "id": 24107,
+         "name": "Palos selfies",
+         "subcategories": []
+        },
+        {
+         "id": 24108,
+         "name": "Trípodes para móviles",
+         "subcategories": []
+        },
+        {
+         "id": 24109,
+         "name": "Manos libres",
+         "subcategories": []
+        },
+        {
+         "id": 24110,
+         "name": "Aros de luz para móviles",
+         "subcategories": []
+        },
+        {
+         "id": 24111,
+         "name": "Estabilizadores para móviles",
+         "subcategories": []
+        },
+        {
+         "id": 24112,
+         "name": "Amplificadores de pantalla para móviles",
+         "subcategories": []
+        },
+        {
+         "id": 24113,
+         "name": "Localizadores para móvil",
+         "subcategories": []
+        },
+        {
+         "id": 9388,
+         "name": "Piezas de recambio",
+         "subcategories": []
+        },
+        {
+         "id": 9370,
+         "name": "Otros accesorios de móviles y smartwatches",
+         "subcategories": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": 24202,
+     "name": "Informática: ordenadores y tablets",
+     "subcategories": [
+      {
+       "id": 10310,
+       "name": "Portátiles",
+       "subcategories": []
+      },
+      {
+       "id": 10309,
+       "name": "Ordenadores de sobremesa",
+       "subcategories": []
+      },
+      {
+       "id": 10136,
+       "name": "Realidad Virtual y aumentada",
+       "subcategories": [
+        {
+         "id": 24114,
+         "name": "Gafas de realidad virtual",
+         "subcategories": []
+        },
+        {
+         "id": 24194,
+         "name": "Otros accesorios de realidad virtual",
+         "subcategories": []
+        }
+       ]
+      },
+      {
+       "id": 9374,
+       "name": "Tablets",
+       "subcategories": []
+      },
+      {
+       "id": 24132,
+       "name": "E-readers",
+       "subcategories": []
+      },
+      {
+       "id": 10134,
+       "name": "Periféricos",
+       "subcategories": [
+        {
+         "id": 10307,
+         "name": "Impresoras",
+         "subcategories": []
+        },
+        {
+         "id": 10133,
+         "name": "Monitores",
+         "subcategories": []
+        },
+        {
+         "id": 10311,
+         "name": "Ratones",
+         "subcategories": []
+        },
+        {
+         "id": 10312,
+         "name": "Teclados",
+         "subcategories": []
+        },
+        {
+         "id": 24133,
+         "name": "Escáners",
+         "subcategories": []
+        },
+        {
+         "id": 24134,
+         "name": "Webcams",
+         "subcategories": []
+        },
+        {
+         "id": 24135,
+         "name": "Otros periféricos",
+         "subcategories": []
+        }
+       ]
+      },
+      {
+       "id": 10304,
+       "name": "Componentes y piezas de ordenador",
+       "subcategories": []
+      },
+      {
+       "id": 24136,
+       "name": "Accesorios de informática",
+       "subcategories": [
+        {
+         "id": 10305,
+         "name": "Accesorios para portátiles",
+         "subcategories": []
+        },
+        {
+         "id": 24137,
+         "name": "Accesorios para tablets",
+         "subcategories": []
+        },
+        {
+         "id": 10306,
+         "name": "Accesorios consumibles para impresoras",
+         "subcategories": []
+        },
+        {
+         "id": 10137,
+         "name": "Software",
+         "subcategories": []
+        },
+        {
+         "id": 24138,
+         "name": "Redes y conectividad",
+         "subcategories": []
+        },
+        {
+         "id": 10308,
+         "name": "Discos duros externos",
+         "subcategories": []
+        },
+        {
+         "id": 10130,
+         "name": "Cables de informática",
+         "subcategories": []
+        },
+        {
+         "id": 24139,
+         "name": "Pendrives y memorias USB",
+         "subcategories": []
+        },
+        {
+         "id": 10135,
+         "name": "Otros accesorios de informática",
+         "subcategories": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": 24203,
+     "name": "Gaming: consolas y videojuegos",
+     "subcategories": [
+      {
+       "id": 10087,
+       "name": "Consolas y accesorios",
+       "subcategories": [
+        {
+         "id": 10088,
+         "name": "Consolas",
+         "subcategories": []
+        },
+        {
+         "id": 10092,
+         "name": "Accesorios y recambios de consolas",
+         "subcategories": []
+        }
+       ]
+      },
+      {
+       "id": 24115,
+       "name": "PC gaming y streaming",
+       "subcategories": [
+        {
+         "id": 24116,
+         "name": "Portátiles gaming",
+         "subcategories": []
+        },
+        {
+         "id": 24117,
+         "name": "Ordenadores sobremesa gaming",
+         "subcategories": []
+        },
+        {
+         "id": 24118,
+         "name": "Monitores gaming",
+         "subcategories": []
+        },
+        {
+         "id": 24119,
+         "name": "Ratones gaming",
+         "subcategories": []
+        },
+        {
+         "id": 24120,
+         "name": "Teclados gaming",
+         "subcategories": []
+        },
+        {
+         "id": 24121,
+         "name": "Sillas gaming",
+         "subcategories": []
+        },
+        {
+         "id": 24122,
+         "name": "Mesas gaming",
+         "subcategories": []
+        },
+        {
+         "id": 24123,
+         "name": "Alfombrillas gaming",
+         "subcategories": []
+        },
+        {
+         "id": 24124,
+         "name": "Mandos para PC",
+         "subcategories": []
+        },
+        {
+         "id": 24125,
+         "name": "Volantes para PC",
+         "subcategories": []
+        },
+        {
+         "id": 24126,
+         "name": "Altavoces gaming",
+         "subcategories": []
+        },
+        {
+         "id": 24127,
+         "name": "Microfonos para PC gamer",
+         "subcategories": []
+        },
+        {
+         "id": 24128,
+         "name": "Auriculares gaming",
+         "subcategories": []
+        },
+        {
+         "id": 24129,
+         "name": "Juegos para PC",
+         "subcategories": []
+        },
+        {
+         "id": 24130,
+         "name": "Accesorios de PC gaming",
+         "subcategories": []
+        }
+       ]
+      },
+      {
+       "id": 24131,
+       "name": "Videojuegos y más",
+       "subcategories": [
+        {
+         "id": 10093,
+         "name": "Videojuegos",
+         "subcategories": []
+        },
+        {
+         "id": 10089,
+         "name": "Manuales y guías de videojuegos",
+         "subcategories": []
+        },
+        {
+         "id": 10090,
+         "name": "Merchandising de videojuegos",
+         "subcategories": []
+        }
+       ]
+      },
+      {
+       "id": 10091,
+       "name": "Otros artículos de gaming",
+       "subcategories": []
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

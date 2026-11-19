@@ -1,0 +1,35 @@
+{
+ "ratings": [
+  {
+   "type": "reviews",
+   "value": 100
+  }
+ ],
+ "counters": [
+  {
+   "type": "publish",
+   "value": 1
+  },
+  {
+   "type": "buys",
+   "value": 0
+  },
+  {
+   "type": "sells",
+   "value": 2
+  },
+  {
+   "type": "reviews",
+   "value": 2
+  },
+  {
+   "type": "sold",
+   "value": 2
+  },
+  {
+   "type": "reports_received",
+   "value": 1
+  }
+ ],
+ "rating_average": 5.0
+}

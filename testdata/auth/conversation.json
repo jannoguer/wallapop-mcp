@@ -1,0 +1,82 @@
+{
+ "hash": "conv0000001",
+ "sale": {
+  "seller": {
+   "hash": "buyer000001"
+  },
+  "buyer": {
+   "hash": "seller000001"
+  }
+ },
+ "with_user": {
+  "hash": "buyer000001",
+  "name": "Ana",
+  "image_url": "https://cdn.wallapop.com/images/placeholder.jpg",
+  "available": true,
+  "malicious": false,
+  "blocked": false,
+  "score": 95,
+  "rating_average": 4.8,
+  "reviews_count": 21,
+  "location": {
+   "longitude": 2.0,
+   "latitude": 41.0
+  },
+  "response_rate": "less than three hours",
+  "slug": "user-1",
+  "preferences": {}
+ },
+ "item": {
+  "hash": "item0000001",
+  "title": "Taza de ceramica azul",
+  "status": "published",
+  "image_url": "https://cdn.wallapop.com/images/placeholder.jpg",
+  "price": {
+   "amount": 3.0,
+   "currency": "EUR"
+  },
+  "slug": "item-1",
+  "is_mine": false,
+  "category_id": 24200
+ },
+ "messages": {
+  "messages": [
+   {
+    "id": "00000000-0000-0000-0000-1795123300000",
+    "from_self": false,
+    "text": "",
+    "timestamp": 1795123300000,
+    "status": "received",
+    "type": "delivery_generic",
+    "time_token": "17951233000000000",
+    "payload": {
+     "text": "Oferta de 4 EUR"
+    }
+   },
+   {
+    "id": "00000000-0000-0000-0000-1795123264597",
+    "from_self": true,
+    "text": "Hola, sigue disponible?",
+    "timestamp": 1795123264597,
+    "status": "received",
+    "type": "text",
+    "time_token": "17951232645970000"
+   },
+   {
+    "id": "00000000-0000-0000-0000-1795123200000",
+    "from_self": false,
+    "text": "Hola!",
+    "timestamp": 1795123200000,
+    "status": "received",
+    "type": "text",
+    "time_token": "17951232000000000"
+   }
+  ]
+ },
+ "unread_messages": 0,
+ "translatable": false,
+ "map_enabled": true,
+ "topic_id": "00000000-0000-0000-0000-000000000000",
+ "items_count": 1,
+ "channel": "chat.buyer000001.conv0000001.seller000001"
+}

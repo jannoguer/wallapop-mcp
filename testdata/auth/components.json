@@ -1,0 +1,229 @@
+{
+ "components": [
+  {
+   "id": "suggested_data_banner",
+   "reloads_when_changed": false,
+   "is_required": false,
+   "is_disabled": false,
+   "type": "feature_banner",
+   "data": {
+    "type": "banner",
+    "title": "Complete the information manually",
+    "paragraph": "The item details couldn't be filled in automatically. Complete them to finish up.",
+    "background": "low_contrast",
+    "size": "S"
+   },
+   "breakpoints": {
+    "extra_small": 12,
+    "small": 12,
+    "medium": 12,
+    "large": 12
+   }
+  },
+  {
+   "id": "photo",
+   "reloads_when_changed": false,
+   "is_required": false,
+   "is_disabled": false,
+   "type": "custom",
+   "data": {
+    "type": "photo",
+    "photos": [],
+    "max_number_of_pictures": 10,
+    "label": "Not used",
+    "placeholder": "Not used"
+   },
+   "breakpoints": {
+    "extra_small": 12,
+    "small": 12,
+    "medium": 12,
+    "large": 12
+   }
+  },
+  {
+   "id": "title",
+   "reloads_when_changed": false,
+   "is_required": true,
+   "is_disabled": false,
+   "type": "text_input",
+   "data": {
+    "type": "text_input_data",
+    "value": "Taza de ceramica azul",
+    "label": "Title*",
+    "max_length": 50,
+    "show_char_counter": true,
+    "keyboard_type": "text",
+    "rules": [
+     {
+      "regex": {
+       "type": "contains",
+       "value": "(?!(?:(https?:\\/\\/(www.)?|www.))([\\w\\d]*\\.)?(wallapop\\.[com|es|co\\.uk|uk|fr|com\\.br|pro|prod|test|beta|api\\.beta|alfa|us|corp])($|/|:)?)(?:(?:(https?:\\/\\/(www.)?|www.))\\S+)",
+       "message": "This field cannot contain links to websites.",
+       "flags": "gi"
+      }
+     },
+     {
+      "regex": {
+       "type": "match",
+       "value": "^(\\s+$)",
+       "message": "This field cannot contain only a space. Please edit it.",
+       "flags": "gi"
+      }
+     },
+     {
+      "regex": {
+       "type": "contains",
+       "value": "\\p{Extended_Pictographic}",
+       "message": "This field cannot contain emojis. Please edit it.",
+       "flags": "u"
+      }
+     }
+    ]
+   },
+   "breakpoints": {
+    "extra_small": 12,
+    "small": 12,
+    "medium": 12,
+    "large": 12
+   }
+  },
+  {
+   "id": "description",
+   "reloads_when_changed": false,
+   "is_required": true,
+   "is_disabled": false,
+   "type": "text_area",
+   "data": {
+    "type": "text_area_data",
+    "label": "Description*",
+    "max_length": 640,
+    "rules": [
+     {
+      "regex": {
+       "type": "contains",
+       "value": "(?!(?:(https?:\\/\\/(www.)?|www.))([\\w\\d]*\\.)?(wallapop\\.[com|es|co\\.uk|uk|fr|com\\.br|pro|prod|test|beta|api\\.beta|alfa|us|corp])($|/|:)?)(?:(?:(https?:\\/\\/(www.)?|www.))\\S+)",
+       "message": "This field cannot contain links to websites.",
+       "flags": "gi"
+      }
+     },
+     {
+      "regex": {
+       "type": "match",
+       "value": "^(\\s+$)",
+       "message": "This field cannot contain only a space. Please edit it.",
+       "flags": "gi"
+      }
+     }
+    ]
+   },
+   "breakpoints": {
+    "extra_small": 12,
+    "small": 12,
+    "medium": 12,
+    "large": 12
+   }
+  },
+  {
+   "id": "condition",
+   "reloads_when_changed": false,
+   "is_required": true,
+   "is_disabled": false,
+   "type": "dropdown",
+   "data": {
+    "type": "dropdown_data",
+    "label": "Condition*",
+    "source_type": "static",
+    "source": {
+     "options": [
+      {
+       "id": "new",
+       "title": "New",
+       "description": "Never been used"
+      },
+      {
+       "id": "as_good_as_new",
+       "title": "As good as new",
+       "description": "In perfect condition"
+      },
+      {
+       "id": "good",
+       "title": "Good condition",
+       "description": "Quite used, but well preserved"
+      },
+      {
+       "id": "fair",
+       "title": "Fair condition",
+       "description": "With evident signs of use"
+      },
+      {
+       "id": "has_given_it_all",
+       "title": "Has given it all",
+       "description": "May have to be repaired"
+      }
+     ]
+    },
+    "is_multiple": false
+   },
+   "breakpoints": {
+    "extra_small": 12,
+    "small": 12,
+    "medium": 6,
+    "large": 6
+   }
+  },
+  {
+   "id": "price_amount",
+   "reloads_when_changed": false,
+   "is_required": true,
+   "is_disabled": false,
+   "type": "text_input",
+   "data": {
+    "type": "text_input_data",
+    "label": "Price*",
+    "max_length": 11,
+    "show_char_counter": false,
+    "helper_message": "Please bear in mind that items priced below 1 € or greater than 2.500 € cannot be shipped.",
+    "conditional_helper_message": {
+     "message": "Please bear in mind that items priced below 1 € or greater than 2.500 € cannot be shipped.",
+     "regex_condition": "^(0(\\.[0-9]{0,2})?|2500\\.(0[1-9]|[1-9][0-9]?)|(250[1-9]|25[1-9][0-9]|2[6-9][0-9]{2}|[3-9][0-9]{3}|[1-9][0-9]{4,})(\\.[0-9]{0,2})?)$|^(?!(0|[1-9]\\d*)(\\.\\d{1,2})?$).*"
+    },
+    "keyboard_type": "decimal",
+    "variant": "currency",
+    "rules": [
+     {
+      "regex": {
+       "type": "match",
+       "value": "^$|[^0-9.,\\s]|^[.,\\s]|[.,\\s]$|[.,\\s]{2,}",
+       "message": "Oops! Something went wrong, please check the information."
+      }
+     }
+    ]
+   },
+   "breakpoints": {
+    "extra_small": 12,
+    "small": 12,
+    "medium": 6,
+    "large": 6
+   }
+  },
+  {
+   "id": "lock_stocks",
+   "reloads_when_changed": false,
+   "is_required": false,
+   "is_disabled": false,
+   "type": "lock",
+   "data": {
+    "type": "IGNORED",
+    "variant": "stocks",
+    "label": "Add more units",
+    "root_category_id": 12485
+   },
+   "breakpoints": {
+    "extra_small": 12,
+    "small": 12,
+    "medium": 12,
+    "large": 12
+   }
+  }
+ ]
+}
