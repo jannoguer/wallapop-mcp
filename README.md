@@ -30,8 +30,8 @@ Claude Desktop (`claude_desktop_config.json`):
 |---|---|
 | `search_items` | Search listings, 40 per page, with a cursor for the next page |
 | `search_enriched` | Search, then attach item details and seller reputation to the top N (default 10, max 20) |
-| `get_item` | Full listing: description, condition, attributes, views/favorites/conversations, images |
-| `get_seller` | Rating, reviews, sales, purchases, reports received, account age, recent reviews |
+| `get_item` | Full listing: description, condition, attributes, views/favorites/conversations, images, shipping options with costs and delivery days. Takes an id, link or slug |
+| `get_seller` | Rating, reviews, sales, purchases, completed shipments, reports received, account age, recent reviews. Takes an id, profile link or slug |
 | `list_categories` | Find category ids by name (Spanish names, accents optional) |
 
 With `WALLAPOP_SESSION` set, these are added:
@@ -83,4 +83,5 @@ go test -tags "live livewrite" -run LiveWrite ./...  # publishes, edits, sells a
 - The session cookie gives full access to your account: keep it out of shared config and repos.
 - A listing published seconds ago refuses edits and status changes for a few seconds; the tools say so, retry.
 - Not supported: offers, favourites, saved searches, purchases, pausing listings (Wallapop answers 403).
+- Shipping options and shipment counts come from the es.wallapop.com page of the listing or profile (one extra request), so `search_enriched` does not include them. If that page is blocked, the tool still answers and says why in `error`.
 - `next_cursor` from `search_enriched` continues at the next 40-result page; listings on the current page past `top_n` are skipped.

@@ -176,3 +176,119 @@ func TestGetSellerReviewsUnavailable(t *testing.T) {
 		t.Errorf("got %v", err)
 	}
 }
+
+var fixtureShipping = []ShippingOption{
+	{Method: "CARRIER_OFFICE", Carrier: "correos", Cost: 2.59},
+	{Method: "BUYER_ADDRESS", Carrier: "correos", Cost: 3.75},
+}
+
+func TestLookupItem(t *testing.T) {
+	for _, ref := range []string{
+		"ejkml3e23yzx",
+		"iphone-13-negro-1311621547",
+		"https://es.wallapop.com/item/iphone-13-negro-1311621547?utm_source=share#top",
+	} {
+		f := newFake(t)
+		it, err := f.app(t, "").LookupItem(context.Background(), ref)
+		if err != nil {
+			t.Fatalf("%s: %v", ref, err)
+		}
+		if it.ID != "ejkml3e23yzx" || it.Condition != "fair" || it.DeliveryDays != "3-7" || it.Error != "" ||
+			!reflect.DeepEqual(it.ShippingOptions, fixtureShipping) {
+			t.Errorf("%s: %+v", ref, it)
+		}
+		if a, p := len(f.requests("/items/ejkml3e23yzx")), len(f.requests("/item/iphone-13-negro-1311621547")); a != 1 || p != 1 {
+			t.Errorf("%s: %d item and %d page requests, want 1 each", ref, a, p)
+		}
+	}
+}
+
+func TestLookupItemNotShippable(t *testing.T) {
+	f := newFake(t)
+	f.wp["GET /items/{id}"] = func(w http.ResponseWriter, _ *http.Request) {
+		w.Write([]byte(`{"id":"x","slug":"x-1","shipping":{"item_is_shippable":true,"user_allows_shipping":false}}`))
+	}
+	it, err := f.app(t, "").LookupItem(context.Background(), "x")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if it.ShippingOptions != nil || len(f.requests("/item/x-1")) != 0 {
+		t.Error("shipping page fetched for an item that is not shippable")
+	}
+}
+
+func TestLookupItemPageErrors(t *testing.T) {
+	f := newFake(t)
+	f.wp["GET /item/{slug}"] = func(w http.ResponseWriter, _ *http.Request) { http.Error(w, "boom", 500) }
+	a := f.app(t, "")
+	it, err := a.LookupItem(context.Background(), "ejkml3e23yzx")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if it.Title == "" || it.ShippingOptions != nil || !strings.Contains(it.Error, "shipping options:") || !strings.Contains(it.Error, "HTTP 500") {
+		t.Errorf("page failure by id: %+v", it)
+	}
+	if _, err := a.LookupItem(context.Background(), "iphone-13-negro-1311621547"); err == nil || !strings.Contains(err.Error(), "HTTP 500") {
+		t.Errorf("page failure by slug: %v", err)
+	}
+
+	pages := map[string]string{
+		"no page data":               `<html><body>captcha</body></html>`,
+		`listing "gone-1" not found`: `<script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{"categories":[]}}}</script>`,
+		"decode page data":           `<script id="__NEXT_DATA__" type="application/json">{oops</script>`,
+	}
+	for want, body := range pages {
+		f := newFake(t)
+		f.wp["GET /item/{slug}"] = func(w http.ResponseWriter, _ *http.Request) { w.Write([]byte(body)) }
+		if _, err := f.app(t, "").LookupItem(context.Background(), "gone-1"); err == nil || !strings.Contains(err.Error(), want) {
+			t.Errorf("got %v, want %q", err, want)
+		}
+	}
+}
+
+func TestLookupSeller(t *testing.T) {
+	for _, ref := range []string{"w67dkw9py56x", "tktkt-460679728", "https://es.wallapop.com/user/tktkt-460679728"} {
+		f := newFake(t)
+		s, err := f.app(t, "").LookupSeller(context.Background(), ref, 0)
+		if err != nil {
+			t.Fatalf("%s: %v", ref, err)
+		}
+		if s.ID != "w67dkw9py56x" || s.Sales != 2 || s.Shipments == nil || *s.Shipments != 3 || s.Error != "" {
+			t.Errorf("%s: %+v", ref, s)
+		}
+		if u, p := len(f.requests("/users/w67dkw9py56x")), len(f.requests("/user/tktkt-460679728")); u != 1 || p != 1 {
+			t.Errorf("%s: %d user and %d page requests, want 1 each", ref, u, p)
+		}
+	}
+}
+
+func TestLookupSellerPageErrors(t *testing.T) {
+	f := newFake(t)
+	f.wp["GET /user/{slug}"] = http.NotFound
+	a := f.app(t, "")
+	s, err := a.LookupSeller(context.Background(), "w67dkw9py56x", 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if s.Name == "" || s.Shipments != nil || !strings.Contains(s.Error, "HTTP 404") {
+		t.Errorf("page failure by id: %+v", s)
+	}
+	if _, err := a.LookupSeller(context.Background(), "gone-1", 0); err == nil || !strings.Contains(err.Error(), "HTTP 404") {
+		t.Errorf("page failure by slug: %v", err)
+	}
+}
+
+func TestRefKey(t *testing.T) {
+	tests := []struct{ ref, kind, want string }{
+		{" ejkml3e23yzx ", "item", "ejkml3e23yzx"},
+		{"https://wallapop.com/item/iphone-13-negro-1311621547", "item", "iphone-13-negro-1311621547"},
+		{"https://es.wallapop.com/item/iphone-13-1/?_pid=wi", "item", "iphone-13-1"},
+		{"https://es.wallapop.com/user/tktkt-460679728#reviews", "user", "tktkt-460679728"},
+		{"", "item", ""},
+	}
+	for _, tt := range tests {
+		if got := refKey(tt.ref, tt.kind); got != tt.want {
+			t.Errorf("refKey(%q) = %q, want %q", tt.ref, got, tt.want)
+		}
+	}
+}

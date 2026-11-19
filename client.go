@@ -173,6 +173,39 @@ func (c *Client) get(ctx context.Context, path string, q url.Values, out any) er
 	return err
 }
 
+// page decodes the data a web app page is rendered from (Next.js
+// __NEXT_DATA__ props.pageProps) into out. Some data, such as shipping
+// costs, is only available there. Pages are addressed by slug; ids get 404.
+func (c *Client) page(ctx context.Context, path string, out any) error {
+	u := c.WebURL + path
+	var html string
+	if _, err := send(ctx, c.HTTP, c.gate, http.MethodGet, u, http.Header{"Accept": {"text/html"}}, nil, &html); err != nil {
+		return err
+	}
+	_, data, ok := strings.Cut(html, `<script id="__NEXT_DATA__"`)
+	if ok {
+		_, data, ok = strings.Cut(data, ">")
+	}
+	if ok {
+		data, _, ok = strings.Cut(data, "</script>")
+	}
+	if !ok {
+		return fmt.Errorf("GET %s: no page data, possibly a captcha or block page", u)
+	}
+	var d struct {
+		Props struct {
+			PageProps json.RawMessage `json:"pageProps"`
+		} `json:"props"`
+	}
+	if err := json.Unmarshal([]byte(data), &d); err != nil {
+		return fmt.Errorf("GET %s: decode page data: %w", u, err)
+	}
+	if err := json.Unmarshal(d.Props.PageProps, out); err != nil {
+		return fmt.Errorf("GET %s: decode page props: %w", u, err)
+	}
+	return nil
+}
+
 // authed sends a request as the logged-in user. u is a full URL; header
 // entries override the defaults. A 401 re-mints the token and retries once.
 func (c *Client) authed(ctx context.Context, method, u string, header http.Header, body []byte, out any) (http.Header, error) {

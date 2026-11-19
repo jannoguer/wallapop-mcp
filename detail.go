@@ -4,8 +4,10 @@ import (
 	"cmp"
 	"context"
 	"errors"
+	"fmt"
 	"net/url"
 	"slices"
+	"strings"
 )
 
 const (
@@ -33,6 +35,16 @@ type ItemDetail struct {
 	SellerID      string            `json:"seller_id"`
 	URL           string            `json:"url"`
 	Images        []string          `json:"images"`
+	// Set by LookupItem only.
+	ShippingOptions []ShippingOption `json:"shipping_options,omitempty"`
+	DeliveryDays    string           `json:"delivery_days,omitempty" jsonschema:"estimated shipping time, e.g. 3-7"`
+	Error           string           `json:"error,omitempty" jsonschema:"why shipping options are missing"`
+}
+
+type ShippingOption struct {
+	Method  string  `json:"method" jsonschema:"CARRIER_OFFICE: buyer collects at a pickup point; BUYER_ADDRESS: home delivery"`
+	Carrier string  `json:"carrier"`
+	Cost    float64 `json:"cost" jsonschema:"paid by the buyer in EUR, before Wallapop's buyer protection fee"`
 }
 
 type Seller struct {
@@ -50,6 +62,9 @@ type Seller struct {
 	ActiveListings  int      `json:"active_listings"`
 	ReportsReceived int      `json:"reports_received" jsonschema:"times other users reported this seller"`
 	RecentReviews   []Review `json:"recent_reviews,omitempty"`
+	// Set by LookupSeller only.
+	Shipments *int   `json:"shipments,omitempty" jsonschema:"completed Wallapop shipments"`
+	Error     string `json:"error,omitempty" jsonschema:"why shipments is missing"`
 }
 
 type Review struct {
@@ -65,6 +80,7 @@ type rawText struct {
 
 type rawItem struct {
 	ID          string  `json:"id"`
+	Slug        string  `json:"slug"`
 	Title       rawText `json:"title"`
 	Description rawText `json:"description"`
 	User        struct {
@@ -97,13 +113,23 @@ type rawItem struct {
 }
 
 func (a *App) GetItem(ctx context.Context, id string) (ItemDetail, error) {
-	if id == "" {
-		return ItemDetail{}, errors.New("id is required")
-	}
-	var r rawItem
-	if err := a.wp.get(ctx, "/items/"+url.PathEscape(id), nil, &r); err != nil {
+	r, err := a.fetchItem(ctx, id)
+	if err != nil {
 		return ItemDetail{}, err
 	}
+	return toItemDetail(r), nil
+}
+
+func (a *App) fetchItem(ctx context.Context, id string) (rawItem, error) {
+	if id == "" {
+		return rawItem{}, errors.New("id is required")
+	}
+	var r rawItem
+	err := a.wp.get(ctx, "/items/"+url.PathEscape(id), nil, &r)
+	return r, err
+}
+
+func toItemDetail(r rawItem) ItemDetail {
 	d := ItemDetail{
 		ID:            r.ID,
 		Title:         r.Title.Original,
@@ -137,6 +163,60 @@ func (a *App) GetItem(ctx context.Context, id string) (ItemDetail, error) {
 			d.Attributes = map[string]string{}
 		}
 		d.Attributes[k] = v.Text
+	}
+	return d
+}
+
+type itemPage struct {
+	Item struct {
+		ID string `json:"id"`
+	} `json:"item"`
+	Delivery struct {
+		Options []struct {
+			Method  string   `json:"method"`
+			Carrier string   `json:"carrier"`
+			Cost    rawPrice `json:"cost"`
+		} `json:"deliveryOptions"`
+		Time *struct {
+			From int `json:"from"`
+			To   int `json:"to"`
+		} `json:"deliveryTime"`
+	} `json:"itemDeliveryInfo"`
+}
+
+// LookupItem backs get_item: ref may also be a listing link or slug, and a
+// shippable item gets its shipping options from the listing's web page.
+func (a *App) LookupItem(ctx context.Context, ref string) (ItemDetail, error) {
+	key := refKey(ref, "item")
+	var page itemPage
+	if isSlug(key) {
+		if err := a.wp.page(ctx, "/item/"+url.PathEscape(key), &page); err != nil {
+			return ItemDetail{}, err
+		}
+		if page.Item.ID == "" {
+			return ItemDetail{}, fmt.Errorf("listing %q not found", key)
+		}
+		key = page.Item.ID
+	}
+	r, err := a.fetchItem(ctx, key)
+	if err != nil {
+		return ItemDetail{}, err
+	}
+	d := toItemDetail(r)
+	if !d.Shippable {
+		return d, nil
+	}
+	if page.Item.ID == "" {
+		if err := a.wp.page(ctx, "/item/"+url.PathEscape(r.Slug), &page); err != nil {
+			d.Error = "shipping options: " + err.Error()
+			return d, nil
+		}
+	}
+	for _, o := range page.Delivery.Options {
+		d.ShippingOptions = append(d.ShippingOptions, ShippingOption{Method: o.Method, Carrier: o.Carrier, Cost: o.Cost.Amount})
+	}
+	if t := page.Delivery.Time; t != nil {
+		d.DeliveryDays = fmt.Sprintf("%d-%d", t.From, t.To)
 	}
 	return d, nil
 }
@@ -232,3 +312,57 @@ func (a *App) GetSeller(ctx context.Context, id string, reviews int) (Seller, er
 	}
 	return s, nil
 }
+
+type userPage struct {
+	User struct {
+		ID string `json:"id"`
+	} `json:"user"`
+	ShippingCounter struct {
+		SucceededCount int `json:"succeededCount"`
+	} `json:"shippingCounter"`
+}
+
+// LookupSeller backs get_seller: ref may also be a profile link or slug, and
+// the result adds the shipment count from the profile's web page.
+func (a *App) LookupSeller(ctx context.Context, ref string, reviews int) (Seller, error) {
+	key := refKey(ref, "user")
+	var page userPage
+	if isSlug(key) {
+		if err := a.wp.page(ctx, "/user/"+url.PathEscape(key), &page); err != nil {
+			return Seller{}, err
+		}
+		if page.User.ID == "" {
+			return Seller{}, fmt.Errorf("seller %q not found", key)
+		}
+		key = page.User.ID
+	}
+	s, err := a.GetSeller(ctx, key, reviews)
+	if err != nil {
+		return Seller{}, err
+	}
+	if page.User.ID == "" {
+		slug := strings.TrimPrefix(s.URL, userURLPrefix)
+		if err := a.wp.page(ctx, "/user/"+url.PathEscape(slug), &page); err != nil {
+			s.Error = "shipments: " + err.Error()
+			return s, nil
+		}
+	}
+	s.Shipments = &page.ShippingCounter.SucceededCount
+	return s, nil
+}
+
+// refKey extracts the id or slug from ref, which may be a Wallapop link such
+// as https://es.wallapop.com/<kind>/<slug>?x=y.
+func refKey(ref, kind string) string {
+	ref = strings.TrimSpace(ref)
+	if _, after, ok := strings.Cut(ref, "/"+kind+"/"); ok {
+		ref = after
+	}
+	if i := strings.IndexAny(ref, "/?#"); i >= 0 {
+		ref = ref[:i]
+	}
+	return ref
+}
+
+// isSlug tells slugs ("iphone-13-1311621547") from ids ("ejkml3e23yzx").
+func isSlug(key string) bool { return strings.Contains(key, "-") }

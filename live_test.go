@@ -67,6 +67,21 @@ func TestLive(t *testing.T) {
 		t.Errorf("malformed seller: %+v", s)
 	}
 
+	li, err := a.LookupItem(ctx, it.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if li.ID != it.ID || li.Error != "" || li.Shippable && (len(li.ShippingOptions) == 0 || li.DeliveryDays == "") {
+		t.Errorf("item by link: %+v", li)
+	}
+	ls, err := a.LookupSeller(ctx, s.URL, 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if ls.ID != s.ID || ls.Shipments == nil || ls.Error != "" {
+		t.Errorf("seller by link: %+v", ls)
+	}
+
 	en, err := a.SearchEnriched(ctx, EnrichParams{SearchParams: p, TopN: 3})
 	if err != nil {
 		t.Fatal(err)

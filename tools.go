@@ -7,11 +7,11 @@ import (
 )
 
 type ItemParams struct {
-	ID string `json:"id" jsonschema:"item id, from a search result"`
+	ID string `json:"id" jsonschema:"item id from a search result, or a listing link or slug"`
 }
 
 type SellerParams struct {
-	ID      string `json:"id" jsonschema:"seller id (seller_id in search results)"`
+	ID      string `json:"id" jsonschema:"seller id (seller_id in search results), or a profile link or slug"`
 	Reviews *int   `json:"reviews,omitempty" jsonschema:"how many recent reviews to include, 0-20 (default 5)"`
 }
 
@@ -47,23 +47,23 @@ func newServer(a *App) *mcp.Server {
 
 	mcp.AddTool(s, &mcp.Tool{
 		Name:        "get_item",
-		Description: "Full details of one Wallapop listing.",
+		Description: "Full details of one Wallapop listing, with shipping options and costs.",
 		Annotations: ro,
 	}, func(ctx context.Context, _ *mcp.CallToolRequest, in ItemParams) (*mcp.CallToolResult, ItemDetail, error) {
-		out, err := a.GetItem(ctx, in.ID)
+		out, err := a.LookupItem(ctx, in.ID)
 		return nil, out, err
 	})
 
 	mcp.AddTool(s, &mcp.Tool{
 		Name:        "get_seller",
-		Description: "Reputation of a Wallapop seller: rating, review and sales counts, reports received, account age and recent reviews.",
+		Description: "Reputation of a Wallapop seller: rating, review, sales and shipment counts, reports received, account age and recent reviews.",
 		Annotations: ro,
 	}, func(ctx context.Context, _ *mcp.CallToolRequest, in SellerParams) (*mcp.CallToolResult, Seller, error) {
 		n := defaultReviews
 		if in.Reviews != nil {
 			n = *in.Reviews
 		}
-		out, err := a.GetSeller(ctx, in.ID, n)
+		out, err := a.LookupSeller(ctx, in.ID, n)
 		return nil, out, err
 	})
 

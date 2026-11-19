@@ -52,6 +52,8 @@ func newFake(t *testing.T) *fake {
 			"GET /users/{id}/stats":   serveFixture(t, "stats.json"),
 			"GET /users/{id}/reviews": serveFixture(t, "reviews.json"),
 			"GET /categories":         serveFixture(t, "categories.json"),
+			"GET /item/{slug}":        serveFixture(t, "item_page.html"),
+			"GET /user/{slug}":        serveFixture(t, "user_page.html"),
 		},
 		geo: map[string]http.HandlerFunc{
 			"GET /search": func(w http.ResponseWriter, r *http.Request) {
@@ -86,7 +88,7 @@ func (f *fake) app(t *testing.T, defaultCity string) *App {
 	geo := f.server(t, &f.geoReqs, f.geo)
 
 	c := NewClient(0)
-	c.BaseURL = wp.URL
+	c.BaseURL, c.WebURL = wp.URL, wp.URL
 	g := NewGeocoder()
 	g.BaseURL = geo.URL
 	g.gate.interval = 0
